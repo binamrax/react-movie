@@ -10,6 +10,8 @@ const List = () => {
     const [page, setPage] = useState(1);
     const [totalPage, setTotal] = useState(0)
     const pagelimit=60;
+    const genreList=["all","Action","Adventure","Animation","Biography","Comedy","Crime","Documentary","Drama","Family","Fantasy","Film-Noir","History","Horror","Music","Musical","Mystery","Romance","Sci-Fi","Short","Sport","Thriller","War","Western"];
+    const [genre,setGenre]=useState(genreList[0]);
     const pagination = (current, total) => {
         let start = (current - 2 <= 0) ? 1 : (current + 2 > total) ? total - 4 : current - 2;
         let condition = (current - 2 <= 0) ? 5 : current + 2;
@@ -24,7 +26,7 @@ const List = () => {
     }
     useEffect(() => {
         setMovies([])
-        fetch(`https://yts.mx/api/v2/list_movies.json?limit=${pagelimit}&sort_by=${sort}&page=${page}&genre=action`).then(r => r.json()).then(r => {
+        fetch(`https://yts.mx/api/v2/list_movies.json?limit=${pagelimit}&genre=${genre}&sort_by=${sort}&page=${page}`).then(r => r.json()).then(r => {
             if (r && r.data && r.data.movies) {
                 setMovies(r.data.movies);
                 setPage(r.data.page_number);
@@ -33,7 +35,7 @@ const List = () => {
         }).catch(e => {
             console.log("API Not working.")
         })
-    }, [sort, page])
+    }, [sort, page,genre])
 
     return (
         <>
@@ -42,6 +44,13 @@ const List = () => {
                 <div className="col">
                     <select className="form-select mb-2" aria-label="Default select example" onChange={(e) => setSort(e.target.value)}>
                         {sortList.map((s, i) => {
+                            return (
+                                <option key={i}>{s}</option>
+                            );
+                        })}
+                    </select>
+                    <select className="form-select mb-2" aria-label="Default select example" onChange={(e) =>setGenre(e.target.value)}>
+                        {genreList.map((s, i) => {
                             return (
                                 <option key={i}>{s}</option>
                             );
