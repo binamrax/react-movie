@@ -12,6 +12,7 @@ const List = () => {
     const pagelimit=60;
     const genreList=["all","Action","Adventure","Animation","Biography","Comedy","Crime","Documentary","Drama","Family","Fantasy","Film-Noir","History","Horror","Music","Musical","Mystery","Romance","Sci-Fi","Short","Sport","Thriller","War","Western"];
     const [genre,setGenre]=useState(genreList[0]);
+   
     const pagination = (current, total) => {
         let start = (current - 2 <= 0) ? 1 : (current + 2 > total) ? total - 4 : current - 2;
         let condition = (current - 2 <= 0) ? 5 : current + 2;
@@ -25,8 +26,9 @@ const List = () => {
         </>)
     }
     useEffect(() => {
+        console.log(process.env.REACT_APP_Point);
         setMovies([])
-        fetch(`https://yts.mx/api/v2/list_movies.json?limit=${pagelimit}&genre=${genre}&sort_by=${sort}&page=${page}`).then(r => r.json()).then(r => {
+        fetch(`${process.env.REACT_APP_APIURL}?limit=${pagelimit}&genre=${genre}&sort_by=${sort}&page=${page}`).then(r => r.json()).then(r => {
             if (r && r.data && r.data.movies) {
                 setMovies(r.data.movies);
                 setPage(r.data.page_number);
