@@ -4,7 +4,7 @@ In the Project I have used react-js for development and bootstrap as design. Des
 
 
 ## Deployed
-It is deployed in vercel. You can checkout [https://binmovie.vercel.app](movieapp).
+It is deployed in vercel. You can checkout [binmovie.vercel.app](https://binmovie.vercel.app).
 
 
 
